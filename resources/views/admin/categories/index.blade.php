@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('success_delete'))
+        <div class="alert alert-warning" role="alert">
+            La categoria "{{ session('success_delete')->name }}" e' stata eliminata correttamente
+        </div>
+        @endif
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -29,7 +35,7 @@
                             <button class="btn btn-danger btn-delete-me" data-id="{{ $category->id }}">Elimina</button>
                         </td> --}}
                         <td>
-                            <form action="{{ route('admin.categories.destroy', ['category' => $category]) }}" method="category">
+                            <form action="{{ route('admin.categories.destroy', ['category' => $category]) }}" method="post">
                                 @method('DELETE')
                                 @csrf
                                 <button class="btn btn-danger btn-delete-me">Elimina</button>

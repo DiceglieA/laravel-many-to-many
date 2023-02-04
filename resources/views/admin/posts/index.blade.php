@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('success_delete'))
+        <div class="alert alert-warning" role="alert">
+            Il post "{{ session('success_delete')->name }}" e' stata eliminato correttamente
+        </div>
+        @endif
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -21,7 +27,7 @@
 
                         <td>
                             {{-- <a href="{{ route('admin.posts.edit', ['post' => $post]) }}" class="btn btn-warning">Edita</a> --}}
-                            {{ $post->category->name }}
+                            {{ $post->category->name ?? '' }}
                         </td>
                         <td>
                             <a href="{{ route('admin.posts.show', ['post' => $post]) }}" class="btn btn-primary">Visita</a>

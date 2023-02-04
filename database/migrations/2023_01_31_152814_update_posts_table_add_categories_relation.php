@@ -20,8 +20,8 @@ class UpdatePostsTableAddCategoriesRelation extends Migration
             //
             $table->foreign('category_id')
                 ->references('id')
-                ->on('categories');
-                // ->onDelete('set null');
+                ->on('categories')
+                ->onDelete('set null');
         });
     }
 
