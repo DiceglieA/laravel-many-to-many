@@ -14,6 +14,9 @@ class Post extends Model
         return $this->belongsTo('App\Category');
     }
 
+    public function tags() {
+        return $this->belongsToMany('App\Tag');
+    }
 
     // per usare nei link lo slug anzichè l'id
     public function getRouteKeyName()
