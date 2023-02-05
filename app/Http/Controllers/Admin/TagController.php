@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class TagController extends Controller
 {
@@ -15,7 +16,9 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::paginate(5);
+
+        return view('admin.tags.index', compact('tags'));
     }
 
     /**
@@ -25,7 +28,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tags.create');
     }
 
     /**
@@ -36,7 +39,21 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        {
+            $request->validate([
+                'name'          => 'required|string|max:100',
+                'slug'          => 'required|string|max:100|unique:categories',
+            ]);
+
+            $data = $request->all();
+
+            $tag = new Tag;
+            $tag->name =           $data['name'];
+            $tag->slug =           $data['slug'];
+            $tag->save();
+
+            // return redirect()->route('admin.tags.show', ['tag' => $tag]); manca la pagina show
+        }
     }
 
     /**
@@ -47,7 +64,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        //non serve per i tag
     }
 
     /**
@@ -58,7 +75,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        return view('admin.tags.edit', compact('tag'));
     }
 
     /**
@@ -70,7 +87,23 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        $request->validate([
+            'name'          => 'required|string|max:100',
+            'slug'          => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('tags')->ignore($tag),
+            ],
+        ]);
+
+        $data = $request->all();
+
+        $tag->name =           $data['name'];
+        $tag->slug =           $data['slug'];
+        $tag->update();
+
+        // return redirect()->route('admin.tags.show', ['tag' => $tag]);
     }
 
     /**
@@ -81,6 +114,6 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        // manca la function destroy
     }
 }
