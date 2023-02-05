@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,5 +30,7 @@ Route::middleware('auth')
     ->group(function () {
         Route::get('/', 'PageController@dashboard')->name('dashboard');
         Route::resource('posts', 'PostController');
+        Route::get('categories/slug', 'CategoryController@slug')->name('categories.slug');
         Route::resource('categories', 'CategoryController');
+        Route::resource('tags', 'TagController');
 });

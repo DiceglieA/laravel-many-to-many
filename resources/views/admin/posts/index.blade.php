@@ -26,12 +26,16 @@
                         <td>{{ $post->slug }}</td>
                         <td>{{ $post->title }}</td>
                         <td>
+                            @if ($post->category)
+                                <a href="{{ route('admin.categories.show', ['category' => $post->category]) }}">{{ $post->category->name }}</a>
+                            @endif
                             {{-- <a href="{{ route('admin.posts.edit', ['post' => $post]) }}" class="btn btn-warning">Edita</a> --}}
-                            {{ $post->category->name ?? ''}}
+                            {{-- {{ $post->category->name ?? ''}} controllo in caso non ci siano categorie --}}
                         </td>
                         <td>
                             @foreach ($post->tags as $tag)
-                                {{ $tag->name}}{{ $loop->last ? '' : ', ' }}
+                                <a href="{{ route('admin.tags.show', ['tag' => $tag])}}">{{ $tag->name}}</a>{{ $loop->last ? '' : ', ' }}
+                                {{-- {{ $tag->name}}{{ $loop->last ? '' : ', ' }} --}}
                             @endforeach
                             {{-- con il condizionale stiamo mettendo la virgola ad ogni tag tranne che all'ultimo usando la variabile loop --}}
                         </td>
